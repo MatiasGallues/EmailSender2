@@ -15,7 +15,7 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtils {
-
+    //256 en hexa
     @Value("${jwt.secret.key}")
     private String secretKey;
 

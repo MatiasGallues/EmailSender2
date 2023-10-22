@@ -21,23 +21,4 @@ public class EmailSenderApplication {
 	}
 
 
-	@Autowired
-	PasswordEncoder passwordEncoder;
-
-	@Autowired
-	UserRepository userRepository;
-	@Bean
-	CommandLineRunner init(){
-		return args -> {
-			UserEntity userEntity = UserEntity.builder()
-					.email("maty7626@gmail.com")
-					.username("mati")
-					.password(passwordEncoder.encode("1234"))
-					.roles(Set.of(RoleEntity.builder()
-							.name(ERole.valueOf(ERole.ADMIN.name())).build()))
-					.build();
-
-			userRepository.save(userEntity);
-		};
-	}
 }

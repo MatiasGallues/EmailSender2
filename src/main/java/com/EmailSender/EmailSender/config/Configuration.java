@@ -21,13 +21,11 @@ public class Configuration {
 
         JavaMailSenderImpl emailSender = new JavaMailSenderImpl();
 
-        try{
-
-            emailSender.setHost("smtp.gmail.com");
-
-        }catch (Exception e){
-            emailSender.setHost("smtp.office365.com");
-        }
+           try{
+               emailSender.setHost("smtp.gmail.com");
+           }catch(Exception e){
+               emailSender.setHost("smtp.office365.com");
+           }
         emailSender.setPort(587);
         emailSender.setUsername(emailUser);
         emailSender.setPassword(emailPass);
@@ -40,4 +38,5 @@ public class Configuration {
 
         return emailSender;
     }
+
 }

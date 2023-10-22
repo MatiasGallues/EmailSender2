@@ -23,7 +23,7 @@ public class principalController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/validar")
+    @GetMapping("/validate")
     public String validar(){
         return "este get es publico para pruebas";
     }
@@ -49,6 +49,8 @@ public class principalController {
 
     return ResponseEntity.ok(userEntity);
     }
+
+
 
     @DeleteMapping("/deleteUser")
     public String deleteUser(@RequestParam String id) {
