@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,7 +25,7 @@ public class principalController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/validar")
+    @GetMapping("/validate")
     public String validar(){
         return "este get es publico para pruebas";
     }
@@ -48,6 +50,12 @@ public class principalController {
     userRepository.save(userEntity);
 
     return ResponseEntity.ok(userEntity);
+    }
+
+    @PostMapping("/accessAdmin")
+    public void listarUsuarios(){
+        List<UserEntity> list = new ArrayList<>(userRepository.findAllByCantEmailIsNotNull());
+        list.forEach(System.out::println);
     }
 
     @DeleteMapping("/deleteUser")

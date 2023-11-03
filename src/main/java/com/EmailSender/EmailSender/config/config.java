@@ -1,4 +1,4 @@
-package com.EmailSender.EmailSender.Security;
+package com.EmailSender.EmailSender.config;
 
 import com.EmailSender.EmailSender.Security.filters.JwtAuthenticationFilter;
 import com.EmailSender.EmailSender.Security.filters.JwtAuthorizationFilter;
@@ -47,7 +47,7 @@ public class config {
         return http
                 .csrf(csrf -> csrf.disable())
                         .authorizeHttpRequests(auth ->{
-                            auth.requestMatchers("/validar").permitAll();
+                            auth.requestMatchers("/validate", "/createUser", "/login").permitAll();
                             auth.requestMatchers("/accessAdmin").hasRole("ADMIN");
                             auth.anyRequest().authenticated();
                         })

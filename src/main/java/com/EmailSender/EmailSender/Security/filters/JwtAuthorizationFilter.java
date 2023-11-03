@@ -6,6 +6,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Getter;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-
+@Getter
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
@@ -25,6 +26,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+
+    String token;
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
@@ -33,7 +36,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         String tokenHeader  = request.getHeader("Authorization");
 
         if(tokenHeader != null && tokenHeader.startsWith("Bearer ")){
-            String token = tokenHeader.substring(7);
+            token = tokenHeader.substring(7);
 
             if (jwtUtils.isTokenValid(token)){
                 String username = jwtUtils.getUsernameFromToken(token);
@@ -47,5 +50,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    public String extractToken(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.substring(7); // Quita "Bearer " del encabezado
+        }
+        return null;
     }
 }
