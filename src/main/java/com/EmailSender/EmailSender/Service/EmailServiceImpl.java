@@ -1,5 +1,10 @@
 package com.EmailSender.EmailSender.Service;
 
+import com.EmailSender.EmailSender.Security.filters.JwtAuthenticationFilter;
+import com.EmailSender.EmailSender.Security.filters.JwtAuthorizationFilter;
+import com.EmailSender.EmailSender.config.Configuration;
+import com.EmailSender.EmailSender.models.UserEntity;
+import com.EmailSender.EmailSender.repositorios.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 @Service
 public class EmailServiceImpl implements EmailService{
@@ -22,8 +28,11 @@ public class EmailServiceImpl implements EmailService{
     @Autowired
     private JavaMailSender emailSender;
 
+
+
     @Override
-    public void sendEmail(String[] toSend, String asunto, String msj) {
+    public void sendEmail(String from, String[] toSend, String asunto, String msj) {
+
 
         SimpleMailMessage emailMsj=new SimpleMailMessage();
 
@@ -31,7 +40,6 @@ public class EmailServiceImpl implements EmailService{
         emailMsj.setTo(toSend);
         emailMsj.setSubject(asunto);
         emailMsj.setText(msj);
-
         emailSender.send(emailMsj);
     }
 
